@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+                 version="1.0">
+    <package>io.blueharvest.labs.axon.common.model</package>
+    <entity class="io.blueharvest.labs.axon.common.model.AccountSummary" name="AccountSummary">
+        <attributes>
+            <id name="id"/>
+            <basic name="balance"/>
+        </attributes>
+    </entity>
+    <entity class="io.blueharvest.labs.axon.common.model.TransactionHistory" name="TransactionHistory">
+        <attributes>
+            <id name="id">
+                <generated-value />
+            </id>
+            <basic name="accountId"/>
+            <basic name="transactionId"/>
+            <basic name="amount"/>
+        </attributes>
+    </entity>
+</entity-mappings>
