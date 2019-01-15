@@ -1,4 +1,4 @@
-package io.blueharvest.labs.axon.ui;
+package io.blueharvest.labs.axon.ui.data.providers;
 
 import com.vaadin.data.provider.CallbackDataProvider;
 import io.blueharvest.labs.axon.common.model.TransactionHistory;

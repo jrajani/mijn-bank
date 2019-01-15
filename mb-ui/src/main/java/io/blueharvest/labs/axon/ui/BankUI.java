@@ -10,6 +10,8 @@ import io.blueharvest.labs.axon.common.command.DepositMoneyCommand;
 import io.blueharvest.labs.axon.common.command.InitiateMoneyTransactionCommand;
 import io.blueharvest.labs.axon.common.model.AccountSummary;
 import io.blueharvest.labs.axon.common.model.TransactionHistory;
+import io.blueharvest.labs.axon.ui.data.providers.AccountSummaryDataProvider;
+import io.blueharvest.labs.axon.ui.data.providers.TransactionHistoryDataProvider;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.slf4j.Logger;
@@ -41,25 +43,30 @@ public class BankUI extends UI {
 
         LOG.debug("In init");
 
-        VerticalLayout panel1 = new VerticalLayout();
-        panel1.addComponents(addAccountPanel());
-        panel1.addComponent(transferMoneyPanel());
+        HorizontalLayout topHorizontalPanel = new HorizontalLayout();
 
-        VerticalLayout panel2 = new VerticalLayout();
-        panel2.addComponents(depositMoneyPanel());
-        panel2.addComponent(withdrawMoneyPanel());
+        topHorizontalPanel.addComponents(addAccountPanel());
+        topHorizontalPanel.addComponents(depositMoneyPanel());
+        topHorizontalPanel.addComponent(withdrawMoneyPanel());
+        topHorizontalPanel.addComponent(transferMoneyPanel());
 
-        VerticalLayout panel3 = new VerticalLayout();
-        panel3.addComponents(accountSummaryGrid());
+        topHorizontalPanel.setSizeFull();
 
-        VerticalLayout panel4 = new VerticalLayout();
-        panel4.addComponents(transactionSummaryGrid());
+        HorizontalLayout bottomHorizontalPanel = new HorizontalLayout();
 
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
-        horizontalLayout.addComponents(panel1, panel2, panel3, panel4);
-        horizontalLayout.setSizeFull();
+        bottomHorizontalPanel.addComponents(accountSummaryGrid());
+        bottomHorizontalPanel.addComponents(transactionSummaryGrid());
 
-        setContent(horizontalLayout);
+        bottomHorizontalPanel.setSizeFull();
+
+        GridLayout gridLayout = new GridLayout(1, 3);
+        gridLayout.setSizeFull();
+        gridLayout.addComponent(topHorizontalPanel, 0,0);
+        gridLayout.addComponent(bottomHorizontalPanel, 0,1,0,2);
+        gridLayout.setMargin(Boolean.TRUE);
+
+
+        setContent(gridLayout);
 
         UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
@@ -69,6 +76,29 @@ public class BankUI extends UI {
                 Notification.show("Error", cause.getMessage(), Notification.Type.ERROR_MESSAGE);
             }
         });
+    }
+
+    private Component addAccountPanel() {
+
+        LOG.debug("In addAccountPanel");
+
+        TextField id = new TextField("ID");
+        TextField name = new TextField("Name");
+        Button btnCreate = new Button("Create");
+
+        btnCreate.addClickListener(evt -> {
+            commandGateway.sendAndWait(new CreateAccountCommand(Integer.parseInt(id.getValue()), name.getValue()));
+            Notification.show("Success", Notification.Type.HUMANIZED_MESSAGE)
+                    .addCloseListener(e -> accountSummaryDataProvider.refreshAll());
+        });
+
+        FormLayout form = new FormLayout();
+        form.addComponents(id, name, btnCreate);
+        form.setMargin(true);
+
+        Panel panel = new Panel("Create new account");
+        panel.setContent(form);
+        return panel;
     }
 
     private Component depositMoneyPanel() {
@@ -138,29 +168,7 @@ public class BankUI extends UI {
 
         Panel panel = new Panel("Transfer Money");
         panel.setContent(form);
-        return panel;
-    }
-
-    private Component addAccountPanel() {
-
-        LOG.debug("In addAccountPanel");
-
-        TextField id = new TextField("ID");
-        TextField name = new TextField("Name");
-        Button btnCreate = new Button("Create");
-
-        btnCreate.addClickListener(evt -> {
-            commandGateway.sendAndWait(new CreateAccountCommand(Integer.parseInt(id.getValue()), name.getValue()));
-            Notification.show("Success", Notification.Type.HUMANIZED_MESSAGE)
-                    .addCloseListener(e -> accountSummaryDataProvider.refreshAll());
-        });
-
-        FormLayout form = new FormLayout();
-        form.addComponents(id, name, btnCreate);
-        form.setMargin(true);
-
-        Panel panel = new Panel("Create new account");
-        panel.setContent(form);
+        panel.setHeight("99%");
         return panel;
     }
 

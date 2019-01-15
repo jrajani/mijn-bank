@@ -54,6 +54,5 @@ public class MoneyTransaction {
     @EventSourcingHandler
     protected void on(TransactionCompletedEvent event) {
         LOG.debug("In TransactionCompletedEvent");
-//        markDeleted();
     }
 }

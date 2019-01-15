@@ -19,18 +19,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- Axon Server -->
         <dependency>
             <groupId>org.axonframework</groupId>
             <artifactId>axon-spring-boot-starter</artifactId>
             <version>${axon.version}</version>
         </dependency>
-
-        <!-- MongoDB As Event Store -->
-        <!--<dependency>-->
-            <!--<groupId>org.axonframework.extensions.mongo</groupId>-->
-            <!--<artifactId>axon-mongo</artifactId>-->
-            <!--<version>${axon.mongo.version}</version>-->
-        <!--</dependency>-->
 
         <!-- Spring Boot with JPA -->
         <dependency>

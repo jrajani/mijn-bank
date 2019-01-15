@@ -19,6 +19,7 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!-- Axon Server -->
         <dependency>
             <groupId>org.axonframework</groupId>
             <artifactId>axon-spring-boot-starter</artifactId>
