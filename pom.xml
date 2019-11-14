@@ -38,12 +38,6 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
-                <configuration>
-                    <exclude>**/*Application.*</exclude>
-                    <exclude>**/*Config.*</exclude>
-                    <exclude>**/*Exception.*</exclude>
-                    <exclude>io/blueharvest/demo/ting/bank/common/*</exclude>
-                </configuration>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
